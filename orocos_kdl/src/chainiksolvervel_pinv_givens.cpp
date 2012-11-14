@@ -19,8 +19,8 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-#include "chainiksolvervel_pinv_givens.hpp"
-#include "utilities/svd_eigen_Macie.hpp"
+#include <kdl/chainiksolvervel_pinv_givens.hpp>
+#include <kdl/utilities/svd_eigen_Macie.hpp>
 
 namespace KDL
 {

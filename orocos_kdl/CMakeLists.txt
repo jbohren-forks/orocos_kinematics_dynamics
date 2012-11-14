@@ -10,11 +10,15 @@ if (ROS_ROOT)
   project(orocos_kdl)
 
   # Load catkin and all dependencies required for this package
-  find_package(catkin REQUIRED)
-  catkin_package(DEPENDS eigen 
-    #INCLUDE_DIRS include
-    #LIBRARIES ${PROJECT_NAME}
+  find_package(catkin REQUIRED COMPONENTS eigen)
+  catkin_package(
+    DEPENDS eigen
+    INCLUDE_DIRS include ${Eigen_INCLUDE_DIRS}
+    LIBRARIES orocos-kdl
     )
+
+  message("include dirs: ${catkin_INCLUDE_DIRS}")
+  include_directories(${Eigen_INCLUDE_DIRS})
 
   set(EXECUTABLE_INSTALL_PATH ${CATKIN_PACKAGE_BIN_DESTINATION})
   set(LIBRARY_INSTALL_PATH ${CATKIN_PACKAGE_LIB_DESTINATION})
@@ -25,19 +29,19 @@ else ()
 
   PROJECT(Orocos-KDL)
 
-  find_package(Eigen 3.0 QUIET)
-  if(NOT Eigen_DIR)
-    include(${PROJECT_SOURCE_DIR}/config/FindEigen3.cmake)
-    include_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
-  endif()
-  INCLUDE_DIRECTORIES(${EIGEN_INCLUDE_DIRS})
-
   set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
   set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
   set(EXECUTABLE_INSTALL_PATH "/bin")
   set(LIBRARY_INSTALL_PATH "/lib")
   set(INCLUDE_INSTALL_PATH "/include/kdl")
+
+  find_package(Eigen 3.0 QUIET)
+  if(NOT Eigen_DIR)
+    include(${PROJECT_SOURCE_DIR}/config/FindEigen3.cmake)
+    include_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
+  endif()
+  INCLUDE_DIRECTORIES(${EIGEN_INCLUDE_DIRS})
 endif()
 
 # KDL Version
@@ -86,15 +90,42 @@ ENDIF(ENABLE_TESTS )
 OPTION(ENABLE_EXAMPLES OFF "Enable building of examples")
 
 ############################################################
-##  Subdirectories                                         #
+##  Library                                                #
 ############################################################
 
 SET( KDL_CFLAGS "" CACHE INTERNAL "")
 INCLUDE (${PROJECT_SOURCE_DIR}/config/DependentOption.cmake)
+
+include_directories(include)
+
 ADD_DEFINITIONS(-DEIGEN2_SUPPORT)
 
+FILE( GLOB KDL_SRCS src/[^.]*.cpp )
+FILE( GLOB UTIL_SRCS src/utilities/[^.]*.cpp src/utilities/[^.]*.cxx)
+
+ADD_LIBRARY(orocos-kdl SHARED ${KDL_SRCS} ${UTIL_SRCS})
+SET_TARGET_PROPERTIES( orocos-kdl PROPERTIES
+  SOVERSION "${KDL_VERSION_MAJOR}.${KDL_VERSION_MINOR}"
+  VERSION "${KDL_VERSION}"
+  COMPILE_FLAGS "${CMAKE_CXX_FLAGS_ADD} ${KDL_CFLAGS}"
+  INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+
+INSTALL( TARGETS orocos-kdl
+  LIBRARY DESTINATION ${LIBRARY_INSTALL_PATH})
+
+INSTALL(DIRECTORY include/
+  DESTINATION ${INCLUDE_INSTALL_PATH})
+
+# Orocos convention:
+CONFIGURE_FILE( src/kdl.pc.in ${CMAKE_CURRENT_BINARY_DIR}/orocos-kdl.pc @ONLY)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/orocos-kdl.pc
+  DESTINATION ${LIBRARY_INSTALL_PATH}/pkgconfig)
+
+############################################################
+##  Subdirectories                                         #
+############################################################
+
 ADD_SUBDIRECTORY( doc )
-ADD_SUBDIRECTORY( src )
 ADD_SUBDIRECTORY( tests )
 ADD_SUBDIRECTORY( examples )
 ADD_SUBDIRECTORY( models )
@@ -103,54 +134,57 @@ ADD_SUBDIRECTORY( models )
 ##  Uninstall target                                       #
 ############################################################
 
-CONFIGURE_FILE(
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-  IMMEDIATE @ONLY)
+if (ROS_ROOT)
+else ()
+  CONFIGURE_FILE(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
 
-CONFIGURE_FILE(
-  ${CMAKE_CURRENT_SOURCE_DIR}/KDLConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/orocos-kdl-config.cmake
-  @ONLY)
+  CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/KDLConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/orocos-kdl-config.cmake
+    @ONLY)
 
-INSTALL(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/orocos-kdl-config.cmake
-  DESTINATION share/orocos-kdl)
+  INSTALL(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/orocos-kdl-config.cmake
+    DESTINATION share/orocos-kdl)
 
-ADD_CUSTOM_TARGET(uninstall
-  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+  ADD_CUSTOM_TARGET(uninstall
+    "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
-############################################################
-##  Packaging                                              #
-############################################################
+  ############################################################
+  ##  Packaging                                              #
+  ############################################################
 
-OPTION( CPACK_PACKAGES "Set to ON to build the packages. Requires cmake >2.4" OFF )
-IF (CPACK_PACKAGES)
-  INCLUDE(InstallRequiredSystemLibraries)
+  OPTION( CPACK_PACKAGES "Set to ON to build the packages. Requires cmake >2.4" OFF )
+  IF (CPACK_PACKAGES)
+    INCLUDE(InstallRequiredSystemLibraries)
 
-  # ATTENTION: There is sometimes a _SOURCE_ version of an
-  # option as well, set both if necessary !
+    # ATTENTION: There is sometimes a _SOURCE_ version of an
+    # option as well, set both if necessary !
 
-  # Create .tar.gz and .tar.tbz2 files:
-  SET(CPACK_GENERATOR "TBZ2")
-  SET(CPACK_SOURCE_GENERATOR "TBZ2")
+    # Create .tar.gz and .tar.tbz2 files:
+    SET(CPACK_GENERATOR "TBZ2")
+    SET(CPACK_SOURCE_GENERATOR "TBZ2")
 
-  # The plain 'package' target works correctly.
-  SET(CPACK_IGNORE_FILES        "/CVS/;/.svn/;.swp$;.#;/#;/build/")
-  # Since the 'package_source' target does a bold copy, define a list of
-  # files which should be excluded. Note that 'subpattern' matching is used,
-  # thus to exclude a directory use /mydir/
-  SET(CPACK_SOURCE_IGNORE_FILES "/CVS/;/.svn/;.swp$;.#;/#;/build/;~")
+    # The plain 'package' target works correctly.
+    SET(CPACK_IGNORE_FILES        "/CVS/;/.svn/;.swp$;.#;/#;/build/")
+    # Since the 'package_source' target does a bold copy, define a list of
+    # files which should be excluded. Note that 'subpattern' matching is used,
+    # thus to exclude a directory use /mydir/
+    SET(CPACK_SOURCE_IGNORE_FILES "/CVS/;/.svn/;.swp$;.#;/#;/build/;~")
 
-  SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Orocos KDL")
-  SET(CPACK_PACKAGE_VENDOR "The Orocos Community")
-  SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
-  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
-  SET(CPACK_PACKAGE_VERSION_MAJOR "${KDL_VERSION_MAJOR}")
-  SET(CPACK_PACKAGE_VERSION_MINOR "${KDL_VERSION_MINOR}")
-  SET(CPACK_PACKAGE_VERSION_PATCH "${KDL_VERSION_PATCH}")
-  SET(CPACK_PACKAGE_INSTALL_DIRECTORY "CMAKE ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
-  SET(CPACK_STRIP_FILES "bin/cmake")
-  #SET(CPACK_PACKAGE_EXECUTABLES "OrocosExec" "Orocos Executable")
-  INCLUDE(CPack)
-ENDIF (CPACK_PACKAGES)
+    SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Orocos KDL")
+    SET(CPACK_PACKAGE_VENDOR "The Orocos Community")
+    SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
+    SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
+    SET(CPACK_PACKAGE_VERSION_MAJOR "${KDL_VERSION_MAJOR}")
+    SET(CPACK_PACKAGE_VERSION_MINOR "${KDL_VERSION_MINOR}")
+    SET(CPACK_PACKAGE_VERSION_PATCH "${KDL_VERSION_PATCH}")
+    SET(CPACK_PACKAGE_INSTALL_DIRECTORY "CMAKE ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
+    SET(CPACK_STRIP_FILES "bin/cmake")
+    #SET(CPACK_PACKAGE_EXECUTABLES "OrocosExec" "Orocos Executable")
+    INCLUDE(CPack)
+  ENDIF (CPACK_PACKAGES)
+endif()

@@ -40,8 +40,8 @@
  ****************************************************************************/
 
 
-//#include "error.h"
-#include "velocityprofile_traphalf.hpp"
+//#include <kdl/error.h>
+#include <kdl/velocityprofile_traphalf.hpp>
 
 namespace KDL {
 

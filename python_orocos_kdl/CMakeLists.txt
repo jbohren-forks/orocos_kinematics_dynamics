@@ -8,15 +8,20 @@ if (ROS_ROOT)
   project(python_orocos_kdl)
 
   # Load catkin and all dependencies required for this package
-  find_package(catkin REQUIRED)
+  find_package(catkin REQUIRED COMPONENTS orocos_kdl)
 
-  catkin_package(DEPENDS orocos_kdl python-sip
+  catkin_package(
+    DEPENDS orocos_kdl
     #INCLUDE_DIRS include
     #LIBRARIES ${PROJECT_NAME}
     )
 
-  include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
+  message("include dirs: ${catkin_INCLUDE_DIRS}")
 
+  include_directories(${catkin_INCLUDE_DIRS})
+  link_directories(${catkin_LIBRARY_DIRS})
+
+  catkin_python_setup()
 else()
   # Build without ROS
   # NOTE: different CMake project names might be required for OROCOS integration

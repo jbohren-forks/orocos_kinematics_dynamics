@@ -41,15 +41,15 @@
  ****************************************************************************/
 
 
-#include "utilities/error.h"
-#include "utilities/error_stack.h"
-#include "path.hpp"
-#include "path_line.hpp"
-#include "path_point.hpp"
-#include "path_circle.hpp"
-#include "path_composite.hpp"
-#include "path_roundedcomposite.hpp"
-#include "path_cyclic_closed.hpp"
+#include <kdl/utilities/error.h>
+#include <kdl/utilities/error_stack.h>
+#include <kdl/path.hpp>
+#include <kdl/path_line.hpp>
+#include <kdl/path_point.hpp>
+#include <kdl/path_circle.hpp>
+#include <kdl/path_composite.hpp>
+#include <kdl/path_roundedcomposite.hpp>
+#include <kdl/path_cyclic_closed.hpp>
 #include <memory>
 #include <string.h>
 

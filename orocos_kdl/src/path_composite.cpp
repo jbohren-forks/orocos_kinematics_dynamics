@@ -40,8 +40,8 @@
  ****************************************************************************/
 
 
-#include "path_composite.hpp"
-#include "utilities/error.h"
+#include <kdl/path_composite.hpp>
+#include <kdl/utilities/error.h>
 #include <memory>
 
 namespace KDL {

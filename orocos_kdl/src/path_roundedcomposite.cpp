@@ -40,10 +40,10 @@
  ****************************************************************************/
 
 
-#include "path_roundedcomposite.hpp"
-#include "path_line.hpp"
-#include "path_circle.hpp"
-#include "utilities/error.h"
+#include <kdl/path_roundedcomposite.hpp>
+#include <kdl/path_line.hpp>
+#include <kdl/path_circle.hpp>
+#include <kdl/utilities/error.h>
 #include <memory>
 
 

@@ -28,7 +28,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "chainiksolverpos_lma.hpp"
+#include <kdl/chainiksolverpos_lma.hpp>
 #include <iostream>
 
 namespace KDL {

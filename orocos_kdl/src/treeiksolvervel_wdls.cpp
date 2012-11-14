@@ -5,8 +5,8 @@
  *      Author: rubensmits
  */
 
-#include "treeiksolvervel_wdls.hpp"
-#include "utilities/svd_eigen_HH.hpp"
+#include <kdl/treeiksolvervel_wdls.hpp>
+#include <kdl/utilities/svd_eigen_HH.hpp>
 
 namespace KDL {
     using namespace std;

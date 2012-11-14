@@ -40,12 +40,12 @@
  ****************************************************************************/
 
 
-#include "utilities/error.h"
-#include "utilities/error_stack.h"
-#include "velocityprofile_rect.hpp"
-#include "velocityprofile_dirac.hpp"
-#include "velocityprofile_trap.hpp"
-#include "velocityprofile_traphalf.hpp"
+#include <kdl/utilities/error.h>
+#include <kdl/utilities/error_stack.h>
+#include <kdl/velocityprofile_rect.hpp>
+#include <kdl/velocityprofile_dirac.hpp>
+#include <kdl/velocityprofile_trap.hpp>
+#include <kdl/velocityprofile_traphalf.hpp>
 #include <string.h>
 
 namespace KDL {

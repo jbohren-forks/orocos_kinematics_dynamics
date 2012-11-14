@@ -40,7 +40,7 @@
  ****************************************************************************/
 
 
-#include "path_line.hpp"
+#include <kdl/path_line.hpp>
 
 namespace KDL {
 

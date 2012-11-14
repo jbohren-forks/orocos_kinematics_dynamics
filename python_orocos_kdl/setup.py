@@ -5,6 +5,7 @@ from catkin_pkg.package import parse_package_for_distutils
 
 d = parse_package_for_distutils()
 d['packages'] = ['PyKDL']
+d['package_dir'] = {'':''}
 d['install_requires'] = []
 
 setup(**d)

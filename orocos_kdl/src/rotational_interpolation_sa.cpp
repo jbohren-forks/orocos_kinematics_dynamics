@@ -40,8 +40,8 @@
  ****************************************************************************/
 
 
-#include "rotational_interpolation_sa.hpp"
-#include "trajectory.hpp"
+#include <kdl/rotational_interpolation_sa.hpp>
+#include <kdl/trajectory.hpp>
 
 namespace KDL {
 

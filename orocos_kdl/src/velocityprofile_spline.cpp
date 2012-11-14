@@ -1,7 +1,7 @@
 
 #include <limits>
 
-#include "velocityprofile_spline.hpp"
+#include <kdl/velocityprofile_spline.hpp>
 
 namespace KDL {
 

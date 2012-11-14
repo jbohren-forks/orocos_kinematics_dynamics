@@ -40,11 +40,11 @@
  ****************************************************************************/
 
 
-#include "utilities/error.h"
-#include "utilities/error_stack.h"
-#include "trajectory.hpp"
-#include "path.hpp"
-#include "trajectory_segment.hpp"
+#include <kdl/utilities/error.h>
+#include <kdl/utilities/error_stack.h>
+#include <kdl/trajectory.hpp>
+#include <kdl/path.hpp>
+#include <kdl/trajectory_segment.hpp>
 
 #include <memory>
 #include <cstring>

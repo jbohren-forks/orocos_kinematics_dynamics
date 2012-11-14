@@ -13,8 +13,8 @@
  *		$Name:  $
  ****************************************************************************/
 
-#include "trajectory_composite.hpp"
-#include "path_composite.hpp"
+#include <kdl/trajectory_composite.hpp>
+#include <kdl/path_composite.hpp>
 
 namespace KDL {
 

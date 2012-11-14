@@ -26,10 +26,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "utilities/error.h"
-#include "utilities/error_stack.h"
-#include "frames.hpp"
-#include "frames_io.hpp"
+#include <kdl/utilities/error.h>
+#include <kdl/utilities/error_stack.h>
+#include <kdl/frames.hpp>
+#include <kdl/frames_io.hpp>
 
 #include <stdlib.h>
 #include <ctype.h>

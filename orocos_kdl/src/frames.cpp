@@ -25,12 +25,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "frames.hpp"
+#include <kdl/frames.hpp>
 
 namespace KDL {
 
 #ifndef KDL_INLINE
-#include "frames.inl"
+#include <kdl/frames.inl>
 #endif
 
     void Frame::Make4x4(double * d)

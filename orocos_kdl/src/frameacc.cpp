@@ -14,12 +14,12 @@
  ****************************************************************************/
 
 
-#include "frameacc.hpp"
+#include <kdl/frameacc.hpp>
 
 namespace KDL {
 
 #ifndef KDL_INLINE
-    #include "frameacc.inl"
+    #include <kdl/frameacc.inl>
 #endif
 
 }

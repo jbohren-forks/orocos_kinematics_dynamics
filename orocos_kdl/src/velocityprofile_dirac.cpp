@@ -25,8 +25,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "utilities/error.h"
-#include "velocityprofile_dirac.hpp"
+#include <kdl/utilities/error.h>
+#include <kdl/velocityprofile_dirac.hpp>
 
 namespace KDL {
 

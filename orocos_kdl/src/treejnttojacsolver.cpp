@@ -5,9 +5,9 @@
  *      Author: rubensmits
  */
 
-#include "treejnttojacsolver.hpp"
+#include <kdl/treejnttojacsolver.hpp>
 #include <iostream>
-#include "kinfam_io.hpp"
+#include <kdl/kinfam_io.hpp>
 
 namespace KDL {
 

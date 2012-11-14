@@ -40,8 +40,8 @@
  ****************************************************************************/
 
 
-#include "utilities/error.h"
-#include "velocityprofile_rect.hpp"
+#include <kdl/utilities/error.h>
+#include <kdl/velocityprofile_rect.hpp>
 
 namespace KDL {
 
