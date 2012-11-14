@@ -3,7 +3,6 @@
   <version>0.3.0</version>
   <description>python_orocos_kdl</description>
   <maintainer email="ruben.smits@intermodalics.eu">Ruben Smits</maintainer>
-  <maintainer email="jbo@jhu.edu">Jonathan Bohren</maintainer>
 
   <license>LGPL</license>
 

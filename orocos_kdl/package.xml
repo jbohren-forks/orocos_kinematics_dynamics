@@ -4,7 +4,6 @@
   <description>This package contains a recent version of the Kinematics and Dynamics
 Library (KDL), distributed by the Orocos Project.</description>
   <maintainer email="ruben.smits@intermodalics.eu">Ruben Smits</maintainer>
-  <maintainer email="jbo@jhu.edu">Jonathan Bohren</maintainer>
   <!-- <maintainer>Erwin Aertbelien</maintainer> -->
   <!-- <maintainer>Orocos Developers</maintainer> -->
 
