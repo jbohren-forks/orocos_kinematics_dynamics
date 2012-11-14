@@ -1,0 +1,30 @@
+<package>
+  <name>orocos_kdl</name>
+  <version>0.3.0</version>
+  <description>This package contains a recent version of the Kinematics and Dynamics
+Library (KDL), distributed by the Orocos Project.</description>
+  <!-- <maintainer>Ruben Smits</maintainer> -->
+  <!-- <maintainer>Erwin Aertbelien</maintainer> -->
+  <!-- <maintainer>Orocos Developers</maintainer> -->
+
+  <license>LGPL</license>
+
+  <url type="website">http://www.orocos.org/kdl</url>
+<!-- <url type="bugtracker"></url> -->
+
+  <build_depend>pkg-config</build_depend>
+  <build_depend>eigen</build_depend>
+  <run_depend>pkg-config</run_depend>
+  <run_depend>eigen</run_depend>
+  <test_depend>cppunit</test_depend>
+
+  <author>Ruben Smits</author>
+  <author>Erwin Aertbelien</author>
+  <author>Orocos Developers</author>
+
+  <export>
+    <cpp lflags="-Wl,-rpath,${prefix}/install_dir/lib  -L${prefix}/install_dir/lib -lorocos-kdl" cflags="-I${prefix}/install_dir/include `pkg-config --cflags eigen3`"/>
+    <doxymaker external="http://www.orocos.org/kdl"/>
+    <architecture_independent/>
+  </export>
+</package>
